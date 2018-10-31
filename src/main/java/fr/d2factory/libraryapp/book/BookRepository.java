@@ -13,7 +13,7 @@ public class BookRepository {
 	private Map<Book, LocalDate> borrowedBooks = new HashMap<>();
 
 	public void addBooks(List<Book> books) {
-		books.forEach(book->availableBooks.put(book.isbn, book));
+		books.forEach(book -> availableBooks.put(book.isbn, book));
 	}
 
 	public Book findBook(long isbnCode) {
@@ -28,16 +28,23 @@ public class BookRepository {
 	}
 
 	public void saveBookBorrow(Book book, LocalDate borrowedAt) {
-		// put the book in the borrowed books
-		borrowedBooks.put(book, borrowedAt);
 		// Remove book from the available books
 		availableBooks.remove(book.isbn);
+		// put the book in the borrowed books
+		borrowedBooks.put(book, borrowedAt);
+	}
+
+	public void saveReturnedBookBorrow(Book book) {
+		// put the book in the borrowed books
+		borrowedBooks.remove(book);
+		// Remove book from the available books
+		availableBooks.put(book.isbn,book);
+
 	}
 
 	public LocalDate findBorrowedBookDate(Book book) {
 		for (Map.Entry<Book, LocalDate> entry : borrowedBooks.entrySet()) {
-			Book key = entry.getKey();
-			if (key.equals(book)) {
+			if ((entry.getKey()).equals(book)) {
 				return entry.getValue();
 			}
 		}

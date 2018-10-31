@@ -37,4 +37,15 @@ public interface Library {
      * @see Member#payBook(int)
      */
     void returnBook(Book book, Member member);
+    /**
+     * Calculate difference of days between two days.
+     *
+     * @param dateBorrow the anterior date
+     * @param now the superior date 
+     * 
+     *
+     * @return the number of days 
+     */
+    
+    long getDifferncebetweenTwoDate(LocalDate dateBorrow, LocalDate now);
 }
