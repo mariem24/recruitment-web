@@ -1,4 +1,4 @@
-package fr.d2factory.libraryapp.book;
+package main.java.fr.d2factory.libraryapp.book;
 
 public class ISBN {
     long isbnCode;

@@ -1,15 +1,12 @@
-package fr.d2factory.libraryapp.library;
+package main.java.fr.d2factory.libraryapp.library;
 
-import fr.d2factory.libraryapp.book.Book;
-import fr.d2factory.libraryapp.member.Member;
-import fr.d2factory.libraryapp.member.Student;
+import main.java.fr.d2factory.libraryapp.book.Book;
+import main.java.fr.d2factory.libraryapp.book.BookRepository;
+import main.java.fr.d2factory.libraryapp.member.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.time.temporal.ChronoUnit;
 
 public class LibraryImpl implements Library {
@@ -53,11 +50,11 @@ public class LibraryImpl implements Library {
 			// of borrowing
 			List<Long> dateOfLoan = new ArrayList<>();
 			LocalDate localDate = LocalDate.now();
-			books.forEach(book -> dateOfLoan
-					.add(new Long(getDifferncebetweenTwoDate(bookRepository.findBorrowedBookDate(book), now))));
+			books.forEach(book_e -> dateOfLoan
+					.add(new Long(getDifferncebetweenTwoDate(bookRepository.findBorrowedBookDate(book), localDate))));
 			boolean exceddeddays = false;
 			if (member instanceof Student) {
-				Long validPeriod = new Long(Member.NUMBER_OF_DAYS_OF_A_VALID_LOAN);
+				Long validPeriod = new Long(Student.NUMBER_OF_DAYS_OF_A_VALID_LOAN);
 				exceddeddays = dateOfLoan.stream().anyMatch(e -> (e > validPeriod));
 
 			} else {
@@ -66,7 +63,7 @@ public class LibraryImpl implements Library {
 
 			}
 			if (exceddeddays)
-				throw HasLateBooksException("Excedded valid period, you can't borrow another book");
+				throw new HasLateBooksException("Excedded valid period, you can't borrow another book");
 			else {
 				books.add(book);
 				member.setBorrowedbooks(books);
@@ -86,7 +83,7 @@ public class LibraryImpl implements Library {
 		member.payBook(numberOfDays);
 		// Third Step : Remove book from borrowed Books andFourth and last step : ADD book To Available books
 		bookRepository.saveReturnedBookBorrow(book);
-		List<java.awt.print.Book> books = member.getBorrowedbooks();
+		List<Book> books = member.getBorrowedbooks();
 		books.remove(book);
 		member.setBorrowedbooks(books);
 	}

@@ -1,4 +1,4 @@
-package fr.d2factory.libraryapp.book;
+package main.java.fr.d2factory.libraryapp.book;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import java.util.Map;
 public class BookRepository {
 	private Map<ISBN, Book> availableBooks = new HashMap<>();
 	private Map<Book, LocalDate> borrowedBooks = new HashMap<>();
-
+	
 	public void addBooks(List<Book> books) {
 		books.forEach(book -> availableBooks.put(book.isbn, book));
 	}
@@ -49,5 +49,21 @@ public class BookRepository {
 			}
 		}
 		return null;
+	}
+	
+	public Map<ISBN, Book> getAvailableBooks() {
+		return availableBooks;
+	}
+
+	public void setAvailableBooks(Map<ISBN, Book> availableBooks) {
+		this.availableBooks = availableBooks;
+	}
+
+	public Map<Book, LocalDate> getBorrowedBooks() {
+		return borrowedBooks;
+	}
+
+	public void setBorrowedBooks(Map<Book, LocalDate> borrowedBooks) {
+		this.borrowedBooks = borrowedBooks;
 	}
 }
